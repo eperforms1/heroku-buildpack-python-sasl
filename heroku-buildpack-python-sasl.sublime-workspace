@@ -1,0 +1,1053 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"address",
+				"address"
+			],
+			[
+				"template",
+				"template_name\tparam"
+			],
+			[
+				"templa",
+				"template_name"
+			],
+			[
+				"last",
+				"last_sent\tstatement"
+			],
+			[
+				"created",
+				"created_date"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"Cou",
+				"CountyWidget\tclass"
+			],
+			[
+				"init",
+				"initialRun"
+			],
+			[
+				"get",
+				"getOptions"
+			],
+			[
+				"q",
+				"queryData"
+			],
+			[
+				"lq",
+				"lqueryOffset"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "Searching 86 files for \"ldap\"\n\nC:\\Sites\\heroku-buildpack-python-ldap-master\\Readme.md:\n    1: Heroku buildpack: Python with python-ldap\n    2  =========================================\n    3  \n    4: This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps with `python-ldap` package requirement, powered by [pip](http://www.pip-installer.org/).\n    5  \n    6: Adds support for `python-ldap` package. Nothing more than `python-ldap` specified in requirements.txt file is needed.\n    7  \n\n4 matches in 1 file\n\n\nSearching 102 files for \"ldap\"\n\nC:\\Sites\\heroku-buildpack-python-ldap-master\\Readme.md:\n    1: Heroku buildpack: Python with python-ldap\n    2  =========================================\n    3  \n    4: This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps with `python-ldap` package requirement, powered by [pip](http://www.pip-installer.org/).\n    5  \n    6: Adds support for `python-ldap` package. Nothing more than `python-ldap` specified in requirements.txt file is needed.\n    7  \n\nC:\\Sites\\heroku-buildpack-python-ldap-master\\bin\\compile:\n  166  source $BIN_DIR/steps/cryptography\n  167  \n  168: # Install python-ldap if needed.\n  169: if grep -q python-ldap requirements.txt; then\n  170:     source $BIN_DIR/steps/python-ldap\n  171  fi\n  172  \n\nC:\\Sites\\heroku-buildpack-python-ldap-master\\bin\\steps\\python-ldap:\n    1: # Install python-ldap\n    2: puts-step \"Installing python-ldap\"\n    3  \n    4  GROFF_VERSION=1.21\n    .\n    8  BERKLEY_DB_URL=http://download.oracle.com/berkeley-db/db-${BERKLEY_DB_VERSION}.NC.tar.gz\n    9  \n   10: OPENLDAP_VERSION=2.4.40\n   11: OPENLDAP_URL=http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-${OPENLDAP_VERSION}.tgz\n   12  \n   13: mkdir -p $CACHE_DIR/.python-ldap\n   14: mkdir -p $BUILD_DIR/.python-ldap\n   15  \n   16: if [ ! -d $CACHE_DIR/.python-ldap/lib-groff ]; then\n   17      echo \"Downloading Groff ${GROFF_VERSION} ...\" | indent\n   18      curl -s -L -o groff.tar.gz $GROFF_URL\n   ..\n   20      tar -zxvf groff.tar.gz > /dev/null\n   21      rm groff.tar.gz\n   22:     mv groff-${GROFF_VERSION} $CACHE_DIR/.python-ldap/groff\n   23      echo \"Configuring ...\" | indent\n   24:     cd $CACHE_DIR/.python-ldap/groff\n   25:     ./configure --prefix=$CACHE_DIR/.python-ldap/lib-groff > /dev/null\n   26      echo \"Compiling ...\" | indent\n   27      make PROCESSEDEXAMPLEFILES=\"\" > /dev/null\n   ..\n   30      cd - > /dev/null\n   31  fi\n   32: cp -R $CACHE_DIR/.python-ldap/lib-groff $BUILD_DIR/.python-ldap/lib-groff\n   33: export PATH=${BUILD_DIR}/.python-ldap/lib-groff/bin:${PATH}\n   34  echo \"Groff enabled.\" | indent\n   35  \n   36  \n   37: if [ ! -d $CACHE_DIR/.python-ldap/lib-berkleydb ]; then\n   38      echo \"Downloading BerkleyDB ${BERKLEY_DB_VERSION} ...\" | indent\n   39      curl -s -L -o berkleydb.tar.gz $BERKLEY_DB_URL\n   ..\n   41      tar -zxvf berkleydb.tar.gz > /dev/null\n   42      rm berkleydb.tar.gz\n   43:     mv db-${BERKLEY_DB_VERSION}.NC $CACHE_DIR/.python-ldap/berkleydb\n   44      echo \"Configuring ...\" | indent\n   45:     cd $CACHE_DIR/.python-ldap/berkleydb/build_unix\n   46:     ../dist/configure --prefix=$CACHE_DIR/.python-ldap/lib-berkleydb > /dev/null\n   47      echo \"Compiling ...\" | indent\n   48      make > /dev/null\n   ..\n   51      cd - > /dev/null\n   52  fi\n   53: cp -R $CACHE_DIR/.python-ldap/lib-berkleydb $BUILD_DIR/.python-ldap/lib-berkleydb\n   54: export LD_LIBRARY_PATH=\"$BUILD_DIR/.python-ldap/lib-berkleydb/lib:${LD_LIBRARY_PATH}\"\n   55  echo \"BerkleyDB enabled.\" | indent\n   56  \n   57  \n   58: if [ ! -d $CACHE_DIR/.python-ldap/lib-openldap ]; then\n   59:     echo \"Downloading Open LDAP ${OPENLDAP_VERSION} ...\" | indent\n   60:     curl -s -L -o openldap.tgz $OPENLDAP_URL\n   61      echo \"Unpacking ...\" | indent\n   62:     tar -zxvf openldap.tgz > /dev/null\n   63:     rm openldap.tgz\n   64:     mv openldap-${OPENLDAP_VERSION} $CACHE_DIR/.python-ldap/openldap\n   65      echo \"Configuring ...\" | indent\n   66:     cd $CACHE_DIR/.python-ldap/openldap\n   67:     LDFLAGS=\"-L$BUILD_DIR/.python-ldap/lib-berkleydb/lib ${LDFLAGS}\" CPPFLAGS=\"-I$BUILD_DIR/.python-ldap/lib-berkleydb/include ${CPPFLAGS}\" ./configure --enable-bdb --enable-crypt --with-tls=openssl --prefix=$CACHE_DIR/.python-ldap/lib-openldap > /dev/null\n   68      echo \"Compiling ...\" | indent\n   69      make depend > /dev/null\n   ..\n   73      cd - > /dev/null\n   74  fi\n   75: cp -R $CACHE_DIR/.python-ldap/lib-openldap $BUILD_DIR/.python-ldap/lib-openldap\n   76: echo \"Open LDAP enabled.\" | indent\n   77  \n   78: echo \"Installing python-ldap ...\" | indent\n   79: PYTHON_LDAP_VERSION=`cat requirements.txt | grep python-ldap | awk -F '=' '{ print $3 }'`\n   80  \n   81  mkdir tmpdir\n   82: if [ -n \"$PYTHON_LDAP_VERSION\" ]; then\n   83:     pip install -d tmpdir python-ldap==${PYTHON_LDAP_VERSION}\n   84  else\n   85:     pip install -d tmpdir python-ldap\n   86:     PYTHON_LDAP_VERSION=`ls tmpdir | grep python-ldap | sed 's/python-ldap-\\(.*\\)\\.tar\\.gz/\\1/g'`\n   87  fi\n   88  \n   89  cd tmpdir\n   90: tar -zxvf python-ldap-${PYTHON_LDAP_VERSION}.tar.gz > /dev/null\n   91: cd python-ldap-${PYTHON_LDAP_VERSION}\n   92: sed \"s,library_dirs = \\(.*\\),library_dirs = $BUILD_DIR/.python-ldap/lib-openldap/lib \\1,g\" setup.cfg > setup.cfg\n   93: sed \"s,include_dirs = \\(.*\\),include_dirs = $BUILD_DIR/.python-ldap/lib-openldap/include \\1,g\" setup.cfg > setup.cfg\n   94  pip install .\n   95  cd ../..\n\n73 matches across 3 files\n",
+			"settings":
+			{
+				"buffer_size": 5495,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "Package Control: dis\t",
+		"selected_items":
+		[
+			[
+				"Package Control: dis\t",
+				"Package Control: Disable Package"
+			],
+			[
+				"django mak",
+				"Django: Make Migration"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"packag\t",
+				"Package Control: Install Package"
+			],
+			[
+				"package control insta",
+				"Package Control: Install Package"
+			],
+			[
+				"package control instal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 432.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Sites/heroku-buildpack-python-sasl",
+		"/C/Sites/heroku-buildpack-python-sasl/bin"
+	],
+	"file_history":
+	[
+		"/C/Sites/HealthCareDemo/HealthCareDemo/cloudera/views.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/fitbit/views.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/healthcare/base.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/views.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mysite/settings.py",
+		"/C/Users/SCHESNEY/demodir.ps1",
+		"/C/Users/SCHESNEY/27demodir.ps1",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/requirements.txt",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/activate27.bat",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/activate27.ps1",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/requirements2.txt",
+		"/C/RCG/Admin/IQA/SC Class 2 Notes.txt",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/test/member_test.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/hwx/views.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/fitbit/templates/fitbit/home.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/device/templates/device/home.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/cloudera/templates/cloudera/home.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/healthcare/base_blank.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/blog/base.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/healthcare/rcg.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/test/base1.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/hwx/templates/hwx/home.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/x/base_public.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/common/utils.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mysite/local_settings.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/act.bat",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/activate.bat",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mysite/__init__.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/healthcare/diabetes.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/test/diabetes_simple.html",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/static/healthcare/js/rcg/heartrate_history.js",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/widget/_wid_heartrate_history.html",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/healthcare/templates/healthcare/provider_map.html",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/healthcare/views.py",
+		"/C/Sites/HealthCareDemo/Notes/cloudera.txt",
+		"/C/Sites/HealthCareDemo/Notes/Notes.txt",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/hwx/views.py",
+		"/C/Sites/HealthCareDemo/Notes/hortonworks.txt",
+		"/C/Sites/HealthCareDemo/Notes/python27.txt",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/fitbit/views.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/activate.bat",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/mysite/local_settings.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/.gitignore",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/cloudera/views.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/healthcare/templatetags/healthcare_tags.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/device/views.py",
+		"/C/Sites/HealthCareDemo27/backup.bat",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/common/utils.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/PIL/PngImagePlugin.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/__init__.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/healthcare/forms.py",
+		"/C/Sites/HealthCareDemo/Notes/python27",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/PIL/Image.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/PIL/PcxImagePlugin.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/PIL/PyAccess.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/cachecontrol/controller.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/__init__.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/database.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/index.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/locators.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/manifest.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/metadata.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/resources.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/scripts.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/util.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/version.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distlib/wheel.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/distro.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/_vendor/requests/packages/urllib3/__init__.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/basecommand.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/commands/check.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/commands/download.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/commands/hash.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/commands/install.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/commands/list.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/commands/search.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/commands/show.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/commands/wheel.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/download.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/index.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/operations/freeze.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/pep425tags.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/req/req_install.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/req/req_set.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/req/req_uninstall.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/utils/outdated.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/utils/packaging.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/utils/ui.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/vcs/__init__.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/vcs/bazaar.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/vcs/git.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/vcs/mercurial.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/vcs/subversion.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/pip/wheel.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/thrift/server/TNonblockingServer.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/thrift/server/TProcessPoolServer.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/thrift/server/TServer.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/thrift/TTornado.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/thriftpy/server.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/virtualenvw27/Lib/site-packages/thriftpy/tornado.py",
+		"/C/Sites/HealthCareDemo/Notes/git.txt",
+		"/C/Sites/HealthCareDemo/Notes/heroku.txt",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/mysite/settings.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/mysite/urls.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/healthcare/urls.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/requirements.txt",
+		"/C/Sites/HealthCareDemo/Notes/windows install.txt",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/models.py",
+		"/C/Sites/HealthCareDemo/Notes/djangogirls.txt",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mysite/urls.py",
+		"/C/Sites/HealthCareDemo27/HealthCareDemo/healthcare/models.py",
+		"/C/Sites/HealthCareDemo/Notes/RCG AWS.txt",
+		"/C/Sites/HealthCareDemo/Notes/postgres2.txt",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/impala/dbapi.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/connections.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/thriftpy/thrift.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/bitarray/test_bitarray.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/TCLIService/ttypes.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/cursor.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/TCLIService/TCLIService.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/cloudera/thrift_sasl.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/thrift/transport/TTransport.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/cloudera/__init__.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2-0.6.0-py3.5.egg-info/requires.txt",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/connections.orig.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/device/urls.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/cloudera/urls.py",
+		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/urls.py"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 130.0,
+		"where_history":
+		[
+			"<open folders>,-*/Backups/*,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"<open folders>,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo\\,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,-*/.git/*,",
+			"C:\\Sites\\HealthCareDemo\\,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo\\Notes\\,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/pywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo27\\HealthCareDemo\\,C:\\Sites\\HealthCareDemo\\Notes\\,-*/pywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo27\\HealthCareDemo\\virtualenvw27\\",
+			"C:\\Sites\\HealthCareDemo27\\HealthCareDemo\\,C:\\Sites\\HealthCareDemo\\Notes\\,-*/pywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo27\\HealthCareDemo\\,C:\\Sites\\HealthCareDemo\\Notes\\,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,C:\\Sites\\HealthCareDemo27\\HealthCareDemo\\,C:\\Sites\\HealthCareDemo\\Notes\\,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,C:\\Sites\\HealthCareDemo\\Notes\\,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,C:\\Sites\\HealthCareDemo\\Notes\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\Notes",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*.xml,-*.py,-*.js,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*.xml,-*.py,-*.js,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*.xml,-*.py,-*.js,-*/smartadmin/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*.xml,-*.py,-*.js",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*,-*.xml,-*.py",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/xdygraphzoom/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*.js",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,C:\\Sites\\HealthCareX\\Dygraphs",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*.html",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/static/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*.js",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/static/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/static/*,-*.html",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*,-*/static/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\healthcare,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo\\healthcare\\static,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo,-*/mywvenv/*,-*/pywvenv/*,-*/static/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo,-*/mywvenv/*,-*/pywvenv/*,-*/static/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo,-*/mywvenv/*,-*/pywvenv/*",
+			"C:\\Sites\\HealthCareDemo\\HealthCareDemo",
+			"<open folders>,-*/mywvenv/*,-*/pywvenv/*",
+			"<open folders>,-*/mywvenv/*,-*/pywvenv/*,-*/static/*",
+			"<open folders>,-*/mywvenv/*,-*/pywvenv/*",
+			"<open folders>,-\\mywenv\\",
+			"<open folders>,-mywenv",
+			"<open folders>,-*venv",
+			"<open folders>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"ldap",
+			"Python app",
+			"heart",
+			"pg_heart",
+			"eperforms1",
+			"    datasource = data_source()\n    return render(request, 'hwx/home.html', {'data_source': datasource})\n",
+			"pyhive",
+			"member_test",
+			"map.html",
+			"blog.css",
+			"upstream",
+			"impyla",
+			"healthcare/data",
+			"dygraph-demo-data.js",
+			"data_temp",
+			"healthcare\\data",
+			"impala",
+			"fitbit_client",
+			"fitbit_api",
+			"gmap_api_key",
+			"googlemaps",
+			"google",
+			"sasl",
+			"logger.error",
+			"logger.debug\n",
+			"logger.debug",
+			"logger.error",
+			"logging.basicConfig()\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)",
+			"logger.setLevel(logging.DEBUG)",
+			"logging.basicConfig()\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)",
+			"logger.setLevel(logging.DEBUG)",
+			"logger = logging.getLogger(__name__)\n",
+			"git remote",
+			"newapp",
+			"local_settings",
+			"django-admin",
+			"cstringio",
+			"pyhs2",
+			"fitbit",
+			"device",
+			"startapp",
+			"django",
+			"python manage.py",
+			"new",
+			"app",
+			"favicon.ico",
+			"datatable_tabletools2",
+			"quit",
+			"sasl",
+			"jdbc",
+			"live",
+			"ONLINE",
+			"settings",
+			"in settings",
+			"CLOUDERA",
+			"strft",
+			"settings",
+			"TIME_ZONE",
+			"pytz",
+			"JSONEncoder",
+			"JSON",
+			"iso",
+			"cloudera",
+			"cloudera/heartrate",
+			"cloudera\\heartrate",
+			"pillow",
+			"console",
+			"ahp-right-logo",
+			"ahp-logo",
+			"Member",
+			"map1.html",
+			"map.html",
+			"Member",
+			"ahp-logo",
+			"127.0",
+			"127",
+			"blood_glucose.js",
+			"cgm_",
+			"Demo1Page",
+			"dygraph-comb",
+			"graph",
+			"graph2",
+			"detailEndDateTm",
+			"detailStartDateTm",
+			"detailEndDateTm",
+			"detailStartDateTm",
+			"drawDygraph",
+			"drawDygraph2",
+			"_loadNewModalData",
+			"graphCont",
+			"graphCont2",
+			"graphCont",
+			"glucose_data",
+			"dygraph",
+			"dygraphtest",
+			"$s",
+			"moment",
+			"dygraphzoom",
+			"spin",
+			"JGS.Demo1Page.js",
+			"bg_modal2",
+			"cgms2",
+			"blood_glucose.js",
+			"graph-cont",
+			"graph-cont-1",
+			"cgms1",
+			"pg_bg_test",
+			"impyla",
+			"heartrate/get",
+			"detailStartDateTm",
+			"_onNewGraphData",
+			"\n  ",
+			"graphCont2",
+			"_loadNewDetailData",
+			"bg_data",
+			"graphData",
+			"graph",
+			"_setupRangeMouseHandling",
+			"xAxisRange",
+			"newGraphDataCallbacks",
+			"_onNewGraphData",
+			"labels",
+			"graph",
+			"$graphCont",
+			"member",
+			"settings.online",
+			"settings",
+			"jquery.min"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"logger.debug",
+			"logger.debug\n",
+			"logging.basicConfig()\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)",
+			"",
+			"bg_",
+			"GlucosePage",
+			"bgGraph",
+			"bgModalGraph",
+			"bgEndDateTm",
+			"bgStartDateTm",
+			"bgModalEndDateTm",
+			"bgModalStartDateTm",
+			"drawBgDygraph",
+			"drawBgModalDygraph",
+			"_loadBgModalData",
+			"bgGraphCont",
+			"bgModalGraphCont",
+			"diabetes",
+			"bg_modal_graph",
+			"bg_graph",
+			"",
+			"member_test",
+			"include/_news_ticker.html",
+			"include/_notification.html",
+			"include/_avatar.html",
+			"include/_member_header",
+			"Member",
+			"MEMBER",
+			"_member_",
+			"map.js",
+			"wid_map",
+			"provider_map",
+			"ForeignKey('Drug'",
+			"ForeignKey('Pharmacy'",
+			"ForeignKey('Provider'",
+			"ForeignKey('Member'",
+			"intraday_data",
+			"Intraday_Data",
+			"Api_Data",
+			"bg",
+			"memberAddresses",
+			"jpg",
+			"png",
+			".jpg' %}\"",
+			"\"{% static 'smartadmin/img/",
+			"chat.html",
+			"member_addr",
+			"member_name",
+			"healthcare/data/dygraph-demo",
+			"healthcare/data/glucose",
+			"healthcare/data/temperatures",
+			"static 'healthcare/js/marquee",
+			"static 'healthcare/js/rcg",
+			"static 'healthcare/img/rcg",
+			"static 'healthcare/css/rcghc_demo.css",
+			"static 'healthcare/css/marquee.css",
+			"static 'healthcare/css/blog",
+			"{# static 'smartadmin/",
+			"{% static 'healthcare/map",
+			"{% static 'healthcare/map.html",
+			"{% static 'smartadmin/",
+			"index.html",
+			"member_map.js",
+			"County_Widget",
+			"county_widget",
+			"county_data",
+			"County_Data",
+			"Claim_Line",
+			"claim_line",
+			"rx_claim",
+			"Provider_Member",
+			"provider_member",
+			"member_map",
+			"member_medical",
+			"heartrate",
+			"healthcare_tags",
+			"js/rcg/rcg.jquery.dataTables.js",
+			"rcg/rcg.jarvis.widget.js",
+			"js/rcg/dygraph-demo-data.js",
+			"demo-data",
+			"demo",
+			"Demo",
+			"demo",
+			"Demo",
+			"rcg-enable",
+			"healthcare",
+			" healthcare",
+			" ",
+			"qdatamax",
+			"\"2016-09-23 00:00:00-04\"",
+			"2016-09-23",
+			"\"2016-09-23 00:00:00-04\"",
+			"png'%}\"",
+			"jpg'%}\"",
+			"src=\"{% static 'img/rcg/",
+			"jarviswidget-color-blue",
+			"widget/_wid_county_row",
+			"wid_county_row",
+			"jarviswidget-color-blueDark",
+			"jarviswidget-color-greenDark",
+			"getMyLocation",
+			"person_id",
+			"person",
+			"map_county",
+			"Healthcare",
+			", blank=True, null=True)",
+			"2015",
+			"2016",
+			"img/rcg/rcg-logo.png",
+			",-1",
+			",-1,",
+			",1,",
+			"",
+			"-1",
+			"",
+			"block page_",
+			"RCG-Logo.png",
+			"RCG_Logo.png",
+			"initialRun",
+			"setPlotData",
+			"resetChart",
+			"plot",
+			"data",
+			"query",
+			"plot",
+			"data",
+			"updateInterval",
+			"data2"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5495,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										131,
+										135
+									],
+									[
+										307,
+										311
+									],
+									[
+										423,
+										427
+									],
+									[
+										464,
+										468
+									],
+									[
+										679,
+										683
+									],
+									[
+										855,
+										859
+									],
+									[
+										971,
+										975
+									],
+									[
+										1012,
+										1016
+									],
+									[
+										1205,
+										1209
+									],
+									[
+										1246,
+										1250
+									],
+									[
+										1314,
+										1318
+									],
+									[
+										1430,
+										1434
+									],
+									[
+										1471,
+										1475
+									],
+									[
+										1632,
+										1636
+									],
+									[
+										1663,
+										1667
+									],
+									[
+										1687,
+										1691
+									],
+									[
+										1718,
+										1722
+									],
+									[
+										1727,
+										1731
+									],
+									[
+										1744,
+										1748
+									],
+									[
+										1755,
+										1759
+									],
+									[
+										1816,
+										1820
+									],
+									[
+										1856,
+										1860
+									],
+									[
+										1905,
+										1909
+									],
+									[
+										2178,
+										2182
+									],
+									[
+										2265,
+										2269
+									],
+									[
+										2327,
+										2331
+									],
+									[
+										2524,
+										2528
+									],
+									[
+										2558,
+										2562
+									],
+									[
+										2613,
+										2617
+									],
+									[
+										2730,
+										2734
+									],
+									[
+										3038,
+										3042
+									],
+									[
+										3129,
+										3133
+									],
+									[
+										3212,
+										3216
+									],
+									[
+										3388,
+										3392
+									],
+									[
+										3426,
+										3430
+									],
+									[
+										3495,
+										3499
+									],
+									[
+										3632,
+										3636
+									],
+									[
+										3645,
+										3649
+									],
+									[
+										3692,
+										3696
+									],
+									[
+										3703,
+										3707
+									],
+									[
+										3760,
+										3764
+									],
+									[
+										3774,
+										3778
+									],
+									[
+										3849,
+										3853
+									],
+									[
+										3888,
+										3892
+									],
+									[
+										3915,
+										3919
+									],
+									[
+										3926,
+										3930
+									],
+									[
+										3959,
+										3963
+									],
+									[
+										3968,
+										3972
+									],
+									[
+										4049,
+										4053
+									],
+									[
+										4058,
+										4062
+									],
+									[
+										4104,
+										4108
+									],
+									[
+										4170,
+										4174
+									],
+									[
+										4297,
+										4301
+									],
+									[
+										4310,
+										4314
+									],
+									[
+										4479,
+										4483
+									],
+									[
+										4492,
+										4496
+									],
+									[
+										4516,
+										4520
+									],
+									[
+										4529,
+										4533
+									],
+									[
+										4552,
+										4556
+									],
+									[
+										4615,
+										4619
+									],
+									[
+										4648,
+										4652
+									],
+									[
+										4697,
+										4701
+									],
+									[
+										4783,
+										4787
+									],
+									[
+										4845,
+										4849
+									],
+									[
+										4860,
+										4864
+									],
+									[
+										4926,
+										4930
+									],
+									[
+										4949,
+										4953
+									],
+									[
+										4987,
+										4991
+									],
+									[
+										5008,
+										5012
+									],
+									[
+										5095,
+										5099
+									],
+									[
+										5109,
+										5113
+									],
+									[
+										5159,
+										5163
+									],
+									[
+										5173,
+										5177
+									],
+									[
+										5257,
+										5261
+									],
+									[
+										5270,
+										5274
+									],
+									[
+										5377,
+										5381
+									],
+									[
+										5390,
+										5394
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								547,
+								547
+							]
+						],
+						"settings":
+						{
+							"default_dir": "C:\\Sites\\heroku-buildpack-python-ldap-master",
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 2,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 259.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "heroku-buildpack-python-sasl.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "pytz",
+		"selected_items":
+		[
+			[
+				"pytz",
+				"PyTZInfo_Check"
+			]
+		],
+		"width": 520.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 283.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
