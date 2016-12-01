@@ -95,7 +95,7 @@ puts-step "Installing sasl"
 # cd ../..
 # rm -rf tmpdir
 
-yum install gcc-c++ python-devel.x86_64 cyrus-sasl-devel.x86_64
+apt-get install gcc-c++ python-devel.x86_64 cyrus-sasl-devel.x86_64
 
 
 
