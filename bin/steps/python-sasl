@@ -25,13 +25,14 @@ if [ ! -d $CACHE_DIR/.python-sasl/sasl ]; then
     tar -zxvf sasl.tar.gz > /dev/null
     rm sasl.tar.gz
     mv sasl-${SASL_VERSION} $CACHE_DIR/.python-sasl/sasl
-    echo "Configuring ..." | indent
     cd $CACHE_DIR/.python-sasl/sasl
-    ./configure --prefix=$CACHE_DIR/.python-sasl/sasl > /dev/null
+    # echo "Configuring ..." | indent
+    # ./configure --prefix=$CACHE_DIR/.python-sasl/sasl > /dev/null
     echo "Compiling ..." | indent
-    make PROCESSEDEXAMPLEFILES="" > /dev/null
-    echo "Installing ..." | indent
-    make PROCESSEDEXAMPLEFILES="" install > /dev/null
+    /app/.heroku/python/bin/python -u -c "import setuptools, tokenize;__file__='setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record install-record.txt --single-version-externally-managed --compile
+    # make PROCESSEDEXAMPLEFILES="" > /dev/null
+    # echo "Installing ..." | indent
+    # make PROCESSEDEXAMPLEFILES="" install > /dev/null
     cd - > /dev/null
 fi
 cp -R $CACHE_DIR/.python-sasl/sasl $BUILD_DIR/.python-sasl/sasl
