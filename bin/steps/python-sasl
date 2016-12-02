@@ -25,6 +25,9 @@ if [ ! -d $CACHE_DIR/.python-sasl/sasl ]; then
     tar -zxvf sasl.tar.gz > /dev/null
     rm sasl.tar.gz
     mv sasl-${SASL_VERSION} $CACHE_DIR/.python-sasl/sasl
+    ls
+    mv $CACHE_DIR/.python-sasl/sasl/setup.py $CACHE_DIR/.python-sasl/sasl/setup.py.bak
+    cp ./sasl-install/setup.py $CACHE_DIR/.python-sasl/sasl/setup.py
     cd $CACHE_DIR/.python-sasl/sasl
     # echo "Configuring ..." | indent
     # ./configure --prefix=$CACHE_DIR/.python-sasl/sasl > /dev/null
