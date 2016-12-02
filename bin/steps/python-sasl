@@ -10,8 +10,33 @@ puts-step "Installing sasl"
 # OPENLDAP_VERSION=2.4.40
 # OPENLDAP_URL=http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-${OPENLDAP_VERSION}.tgz
 
-# mkdir -p $CACHE_DIR/.python-sasl
-# mkdir -p $BUILD_DIR/.python-sasl
+SASL_VERSION=0.2.1
+SASL_URL="https://pypi.python.org/packages/8e/2c/45dae93d666aea8492678499e0999269b4e55f1829b1e4de5b8204706ad9/sasl-${SASL_VERSION}.tar.gz#md5=ca093d9a3d6f20b79b964a5e5add0202"
+# curl -s -L -o sasl-0.2.1.tar.gz "https://pypi.python.org/packages/8e/2c/45dae93d666aea8492678499e0999269b4e55f1829b1e4de5b8204706ad9/sasl-0.2.1.tar.gz#md5=ca093d9a3d6f20b79b964a5e5add0202"
+# SASL_DIR = sasl-$SASL_VERSION
+
+mkdir -p $CACHE_DIR/.python-sasl
+mkdir -p $BUILD_DIR/.python-sasl
+
+if [ ! -d $CACHE_DIR/.python-sasl/sasl ]; then
+    echo "Downloading SASL ${SASL_VERSION} ..." | indent
+    curl -s -L -o sasl.tar.gz $SASL_URL
+    echo "Unpacking ..." | indent
+    tar -zxvf sasl.tar.gz > /dev/null
+    rm sasl.tar.gz
+    mv sasl-${SASL_VERSION} $CACHE_DIR/.python-sasl/sasl
+    echo "Configuring ..." | indent
+    cd $CACHE_DIR/.python-sasl/sasl
+    ./configure --prefix=$CACHE_DIR/.python-sasl/sasl > /dev/null
+    echo "Compiling ..." | indent
+    make PROCESSEDEXAMPLEFILES="" > /dev/null
+    echo "Installing ..." | indent
+    make PROCESSEDEXAMPLEFILES="" install > /dev/null
+    cd - > /dev/null
+fi
+cp -R $CACHE_DIR/.python-sasl/sasl $BUILD_DIR/.python-sasl/sasl
+export PATH=${BUILD_DIR}/.python-sasl/sasl/bin:${PATH}
+echo "SASL enabled." | indent
 
 # if [ ! -d $CACHE_DIR/.python-sasl/lib-groff ]; then
 #     echo "Downloading Groff ${GROFF_VERSION} ..." | indent
