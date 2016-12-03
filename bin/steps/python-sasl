@@ -35,17 +35,17 @@ if [ ! -d $CACHE_DIR/.python-sasl/sasl ]; then
     # /app/.heroku/python/bin/python -- enable-shared -u -c "import setuptools, tokenize;__file__='setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record install-record.txt --single-version-externally-managed --compile
     # # make PROCESSEDEXAMPLEFILES="" > /dev/null
     # # echo "Installing ..." | indent
-    echo "Unpacking ..." | indent
-    curl -O -L ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz
-    echo "Unpacking ..." | indent
-    tar xzf cyrus-sasl-2.1.26.tar.gz
-    cd cyrus-sasl-2.1.26
-    echo "Compiling ..." | indent
-    ./configure
-    echo "Making ..." | indent
-    make install
-    # make PROCESSEDEXAMPLEFILES="" install > /dev/null
-    cd - > /dev/null
+    # echo "Unpacking ..." | indent
+    # curl -O -L ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz
+    # echo "Unpacking ..." | indent
+    # tar xzf cyrus-sasl-2.1.26.tar.gz
+    # cd cyrus-sasl-2.1.26
+    # echo "Compiling ..." | indent
+    # ./configure
+    # echo "Making ..." | indent
+    # make install
+    # # make PROCESSEDEXAMPLEFILES="" install > /dev/null
+    # cd - > /dev/null
 fi
 cp -R $CACHE_DIR/.python-sasl/sasl $BUILD_DIR/.python-sasl/sasl
 export PATH=${BUILD_DIR}/.python-sasl/sasl/bin:${PATH}
