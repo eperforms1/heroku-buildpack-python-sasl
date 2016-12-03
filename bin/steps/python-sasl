@@ -19,21 +19,21 @@ mkdir -p $CACHE_DIR/.python-sasl
 mkdir -p $BUILD_DIR/.python-sasl
 
 if [ ! -d $CACHE_DIR/.python-sasl/sasl ]; then
-    # echo "Downloading SASL ${SASL_VERSION} ..." | indent
-    # curl -s -L -o sasl.tar.gz $SASL_URL
-    # echo "Unpacking ..." | indent
-    # tar -zxvf sasl.tar.gz > /dev/null
-    # rm sasl.tar.gz
-    # mv sasl-${SASL_VERSION} $CACHE_DIR/.python-sasl/sasl
-    # ls
-    # mv $CACHE_DIR/.python-sasl/sasl/setup.py $CACHE_DIR/.python-sasl/sasl/setup.py.bak
-    # cp ./sasl-install/setup.py $CACHE_DIR/.python-sasl/sasl/setup.py
-    # cd $CACHE_DIR/.python-sasl/sasl
-    # # echo "Configuring ..." | indent
-    # # ./configure --prefix=$CACHE_DIR/.python-sasl/sasl > /dev/null
-    # echo "Compiling ..." | indent
-    # /app/.heroku/python/bin/python -- enable-shared -u -c "import setuptools, tokenize;__file__='setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record install-record.txt --single-version-externally-managed --compile
-    # # make PROCESSEDEXAMPLEFILES="" > /dev/null
+    echo "Downloading SASL ${SASL_VERSION} ..." | indent
+    curl -s -L -o sasl.tar.gz $SASL_URL
+    echo "Unpacking ..." | indent
+    tar -zxvf sasl.tar.gz > /dev/null
+    rm sasl.tar.gz
+    mv sasl-${SASL_VERSION} $CACHE_DIR/.python-sasl/sasl
+    ls
+    mv $CACHE_DIR/.python-sasl/sasl/setup.py $CACHE_DIR/.python-sasl/sasl/setup.py.bak
+    cp ./sasl-install/setup.py $CACHE_DIR/.python-sasl/sasl/setup.py
+    cd $CACHE_DIR/.python-sasl/sasl
+    # echo "Configuring ..." | indent
+    # ./configure --prefix=$CACHE_DIR/.python-sasl/sasl > /dev/null
+    echo "Compiling ..." | indent
+    /app/.heroku/python/bin/python --enable-shared -u -c "import setuptools, tokenize;__file__='setup.py';f=getattr(tokenize, 'open', open)(__file__);code=f.read().replace('\r\n', '\n');f.close();exec(compile(code, __file__, 'exec'))" install --record install-record.txt --single-version-externally-managed --compile
+    # make PROCESSEDEXAMPLEFILES="" > /dev/null
     # # echo "Installing ..." | indent
     # echo "Unpacking ..." | indent
     # curl -O -L ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-2.1.26.tar.gz
@@ -45,7 +45,7 @@ if [ ! -d $CACHE_DIR/.python-sasl/sasl ]; then
     # echo "Making ..." | indent
     # make install
     # # make PROCESSEDEXAMPLEFILES="" install > /dev/null
-    # cd - > /dev/null
+    cd - > /dev/null
 fi
 cp -R $CACHE_DIR/.python-sasl/sasl $BUILD_DIR/.python-sasl/sasl
 export PATH=${BUILD_DIR}/.python-sasl/sasl/bin:${PATH}
