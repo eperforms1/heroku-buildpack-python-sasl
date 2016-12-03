@@ -52,13 +52,39 @@
 	"buffers":
 	[
 		{
-			"contents": "Searching 86 files for \"ldap\"\n\nC:\\Sites\\heroku-buildpack-python-ldap-master\\Readme.md:\n    1: Heroku buildpack: Python with python-ldap\n    2  =========================================\n    3  \n    4: This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps with `python-ldap` package requirement, powered by [pip](http://www.pip-installer.org/).\n    5  \n    6: Adds support for `python-ldap` package. Nothing more than `python-ldap` specified in requirements.txt file is needed.\n    7  \n\n4 matches in 1 file\n\n\nSearching 102 files for \"ldap\"\n\nC:\\Sites\\heroku-buildpack-python-ldap-master\\Readme.md:\n    1: Heroku buildpack: Python with python-ldap\n    2  =========================================\n    3  \n    4: This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) for Python apps with `python-ldap` package requirement, powered by [pip](http://www.pip-installer.org/).\n    5  \n    6: Adds support for `python-ldap` package. Nothing more than `python-ldap` specified in requirements.txt file is needed.\n    7  \n\nC:\\Sites\\heroku-buildpack-python-ldap-master\\bin\\compile:\n  166  source $BIN_DIR/steps/cryptography\n  167  \n  168: # Install python-ldap if needed.\n  169: if grep -q python-ldap requirements.txt; then\n  170:     source $BIN_DIR/steps/python-ldap\n  171  fi\n  172  \n\nC:\\Sites\\heroku-buildpack-python-ldap-master\\bin\\steps\\python-ldap:\n    1: # Install python-ldap\n    2: puts-step \"Installing python-ldap\"\n    3  \n    4  GROFF_VERSION=1.21\n    .\n    8  BERKLEY_DB_URL=http://download.oracle.com/berkeley-db/db-${BERKLEY_DB_VERSION}.NC.tar.gz\n    9  \n   10: OPENLDAP_VERSION=2.4.40\n   11: OPENLDAP_URL=http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-${OPENLDAP_VERSION}.tgz\n   12  \n   13: mkdir -p $CACHE_DIR/.python-ldap\n   14: mkdir -p $BUILD_DIR/.python-ldap\n   15  \n   16: if [ ! -d $CACHE_DIR/.python-ldap/lib-groff ]; then\n   17      echo \"Downloading Groff ${GROFF_VERSION} ...\" | indent\n   18      curl -s -L -o groff.tar.gz $GROFF_URL\n   ..\n   20      tar -zxvf groff.tar.gz > /dev/null\n   21      rm groff.tar.gz\n   22:     mv groff-${GROFF_VERSION} $CACHE_DIR/.python-ldap/groff\n   23      echo \"Configuring ...\" | indent\n   24:     cd $CACHE_DIR/.python-ldap/groff\n   25:     ./configure --prefix=$CACHE_DIR/.python-ldap/lib-groff > /dev/null\n   26      echo \"Compiling ...\" | indent\n   27      make PROCESSEDEXAMPLEFILES=\"\" > /dev/null\n   ..\n   30      cd - > /dev/null\n   31  fi\n   32: cp -R $CACHE_DIR/.python-ldap/lib-groff $BUILD_DIR/.python-ldap/lib-groff\n   33: export PATH=${BUILD_DIR}/.python-ldap/lib-groff/bin:${PATH}\n   34  echo \"Groff enabled.\" | indent\n   35  \n   36  \n   37: if [ ! -d $CACHE_DIR/.python-ldap/lib-berkleydb ]; then\n   38      echo \"Downloading BerkleyDB ${BERKLEY_DB_VERSION} ...\" | indent\n   39      curl -s -L -o berkleydb.tar.gz $BERKLEY_DB_URL\n   ..\n   41      tar -zxvf berkleydb.tar.gz > /dev/null\n   42      rm berkleydb.tar.gz\n   43:     mv db-${BERKLEY_DB_VERSION}.NC $CACHE_DIR/.python-ldap/berkleydb\n   44      echo \"Configuring ...\" | indent\n   45:     cd $CACHE_DIR/.python-ldap/berkleydb/build_unix\n   46:     ../dist/configure --prefix=$CACHE_DIR/.python-ldap/lib-berkleydb > /dev/null\n   47      echo \"Compiling ...\" | indent\n   48      make > /dev/null\n   ..\n   51      cd - > /dev/null\n   52  fi\n   53: cp -R $CACHE_DIR/.python-ldap/lib-berkleydb $BUILD_DIR/.python-ldap/lib-berkleydb\n   54: export LD_LIBRARY_PATH=\"$BUILD_DIR/.python-ldap/lib-berkleydb/lib:${LD_LIBRARY_PATH}\"\n   55  echo \"BerkleyDB enabled.\" | indent\n   56  \n   57  \n   58: if [ ! -d $CACHE_DIR/.python-ldap/lib-openldap ]; then\n   59:     echo \"Downloading Open LDAP ${OPENLDAP_VERSION} ...\" | indent\n   60:     curl -s -L -o openldap.tgz $OPENLDAP_URL\n   61      echo \"Unpacking ...\" | indent\n   62:     tar -zxvf openldap.tgz > /dev/null\n   63:     rm openldap.tgz\n   64:     mv openldap-${OPENLDAP_VERSION} $CACHE_DIR/.python-ldap/openldap\n   65      echo \"Configuring ...\" | indent\n   66:     cd $CACHE_DIR/.python-ldap/openldap\n   67:     LDFLAGS=\"-L$BUILD_DIR/.python-ldap/lib-berkleydb/lib ${LDFLAGS}\" CPPFLAGS=\"-I$BUILD_DIR/.python-ldap/lib-berkleydb/include ${CPPFLAGS}\" ./configure --enable-bdb --enable-crypt --with-tls=openssl --prefix=$CACHE_DIR/.python-ldap/lib-openldap > /dev/null\n   68      echo \"Compiling ...\" | indent\n   69      make depend > /dev/null\n   ..\n   73      cd - > /dev/null\n   74  fi\n   75: cp -R $CACHE_DIR/.python-ldap/lib-openldap $BUILD_DIR/.python-ldap/lib-openldap\n   76: echo \"Open LDAP enabled.\" | indent\n   77  \n   78: echo \"Installing python-ldap ...\" | indent\n   79: PYTHON_LDAP_VERSION=`cat requirements.txt | grep python-ldap | awk -F '=' '{ print $3 }'`\n   80  \n   81  mkdir tmpdir\n   82: if [ -n \"$PYTHON_LDAP_VERSION\" ]; then\n   83:     pip install -d tmpdir python-ldap==${PYTHON_LDAP_VERSION}\n   84  else\n   85:     pip install -d tmpdir python-ldap\n   86:     PYTHON_LDAP_VERSION=`ls tmpdir | grep python-ldap | sed 's/python-ldap-\\(.*\\)\\.tar\\.gz/\\1/g'`\n   87  fi\n   88  \n   89  cd tmpdir\n   90: tar -zxvf python-ldap-${PYTHON_LDAP_VERSION}.tar.gz > /dev/null\n   91: cd python-ldap-${PYTHON_LDAP_VERSION}\n   92: sed \"s,library_dirs = \\(.*\\),library_dirs = $BUILD_DIR/.python-ldap/lib-openldap/lib \\1,g\" setup.cfg > setup.cfg\n   93: sed \"s,include_dirs = \\(.*\\),include_dirs = $BUILD_DIR/.python-ldap/lib-openldap/include \\1,g\" setup.cfg > setup.cfg\n   94  pip install .\n   95  cd ../..\n\n73 matches across 3 files\n",
+			"file": "bin/steps/python-sasl",
 			"settings":
 			{
-				"buffer_size": 5495,
+				"buffer_size": 6105,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Sites/sasl-0.2.1/setup.cfg",
+			"settings":
+			{
+				"buffer_size": 59,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Sites/HealthCareDemo/Notes/stackoverflow question.txt",
+			"settings":
+			{
+				"buffer_size": 4648,
+				"encoding": "UTF-8",
 				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
+				"name": "I'm trying to deploy on Heroku a Python App that u"
+			}
+		},
+		{
+			"file": "bin/compile",
+			"settings":
+			{
+				"buffer_size": 8288,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -124,10 +150,13 @@
 	"expanded_folders":
 	[
 		"/C/Sites/heroku-buildpack-python-sasl",
-		"/C/Sites/heroku-buildpack-python-sasl/bin"
+		"/C/Sites/heroku-buildpack-python-sasl/bin",
+		"/C/Sites/heroku-buildpack-python-sasl/bin/steps"
 	],
 	"file_history":
 	[
+		"/C/Sites/sasl-0.2.1/setup.cfg",
+		"/C/Sites/heroku-buildpack-python-sasl/builds/libraries/vendor/gdal",
 		"/C/Sites/HealthCareDemo/HealthCareDemo/cloudera/views.py",
 		"/C/Sites/HealthCareDemo/HealthCareDemo/fitbit/views.py",
 		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/templates/healthcare/base.html",
@@ -253,9 +282,7 @@
 		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/cloudera/__init__.py",
 		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2-0.6.0-py3.5.egg-info/requires.txt",
 		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/connections.orig.py",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/device/urls.py",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/cloudera/urls.py",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/healthcare/urls.py"
+		"/C/Sites/HealthCareDemo/HealthCareDemo/device/urls.py"
 	],
 	"find":
 	{
@@ -266,6 +293,7 @@
 		"height": 130.0,
 		"where_history":
 		[
+			"<open folders>,-*/Backups/*,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,C:\\Sites\\heroku-buildpack-python-ldap-master,C:\\Sites\\heroku-buildpack-geodjango-master",
 			"<open folders>,-*/Backups/*,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
 			"<open folders>,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,",
 			"C:\\Sites\\HealthCareDemo\\,-*/pywvenv/*,-*/mywvenv/*,-*/virtualenvw27/*,-*/xdygraphzoom/*,-*/smartadmin/*,-*/.git/*,",
@@ -333,6 +361,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".python-ldap",
+			"ldap",
+			"apt-get",
+			"yum",
+			"curl",
+			"yum",
+			"pip install",
+			"Python app detected",
+			"Python detected",
 			"ldap",
 			"Python app",
 			"heart",
@@ -451,16 +488,7 @@
 			"graphData",
 			"graph",
 			"_setupRangeMouseHandling",
-			"xAxisRange",
-			"newGraphDataCallbacks",
-			"_onNewGraphData",
-			"labels",
-			"graph",
-			"$graphCont",
-			"member",
-			"settings.online",
-			"settings",
-			"jquery.min"
+			"xAxisRange"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -468,6 +496,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			".python-sasl",
+			"sasl",
 			"logger.debug",
 			"logger.debug\n",
 			"logging.basicConfig()\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.DEBUG)",
@@ -593,9 +623,7 @@
 			"data",
 			"query",
 			"plot",
-			"data",
-			"updateInterval",
-			"data2"
+			"data"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -611,354 +639,131 @@
 			[
 				{
 					"buffer": 0,
+					"file": "bin/steps/python-sasl",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5495,
+						"buffer_size": 6105,
 						"regions":
 						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										131,
-										135
-									],
-									[
-										307,
-										311
-									],
-									[
-										423,
-										427
-									],
-									[
-										464,
-										468
-									],
-									[
-										679,
-										683
-									],
-									[
-										855,
-										859
-									],
-									[
-										971,
-										975
-									],
-									[
-										1012,
-										1016
-									],
-									[
-										1205,
-										1209
-									],
-									[
-										1246,
-										1250
-									],
-									[
-										1314,
-										1318
-									],
-									[
-										1430,
-										1434
-									],
-									[
-										1471,
-										1475
-									],
-									[
-										1632,
-										1636
-									],
-									[
-										1663,
-										1667
-									],
-									[
-										1687,
-										1691
-									],
-									[
-										1718,
-										1722
-									],
-									[
-										1727,
-										1731
-									],
-									[
-										1744,
-										1748
-									],
-									[
-										1755,
-										1759
-									],
-									[
-										1816,
-										1820
-									],
-									[
-										1856,
-										1860
-									],
-									[
-										1905,
-										1909
-									],
-									[
-										2178,
-										2182
-									],
-									[
-										2265,
-										2269
-									],
-									[
-										2327,
-										2331
-									],
-									[
-										2524,
-										2528
-									],
-									[
-										2558,
-										2562
-									],
-									[
-										2613,
-										2617
-									],
-									[
-										2730,
-										2734
-									],
-									[
-										3038,
-										3042
-									],
-									[
-										3129,
-										3133
-									],
-									[
-										3212,
-										3216
-									],
-									[
-										3388,
-										3392
-									],
-									[
-										3426,
-										3430
-									],
-									[
-										3495,
-										3499
-									],
-									[
-										3632,
-										3636
-									],
-									[
-										3645,
-										3649
-									],
-									[
-										3692,
-										3696
-									],
-									[
-										3703,
-										3707
-									],
-									[
-										3760,
-										3764
-									],
-									[
-										3774,
-										3778
-									],
-									[
-										3849,
-										3853
-									],
-									[
-										3888,
-										3892
-									],
-									[
-										3915,
-										3919
-									],
-									[
-										3926,
-										3930
-									],
-									[
-										3959,
-										3963
-									],
-									[
-										3968,
-										3972
-									],
-									[
-										4049,
-										4053
-									],
-									[
-										4058,
-										4062
-									],
-									[
-										4104,
-										4108
-									],
-									[
-										4170,
-										4174
-									],
-									[
-										4297,
-										4301
-									],
-									[
-										4310,
-										4314
-									],
-									[
-										4479,
-										4483
-									],
-									[
-										4492,
-										4496
-									],
-									[
-										4516,
-										4520
-									],
-									[
-										4529,
-										4533
-									],
-									[
-										4552,
-										4556
-									],
-									[
-										4615,
-										4619
-									],
-									[
-										4648,
-										4652
-									],
-									[
-										4697,
-										4701
-									],
-									[
-										4783,
-										4787
-									],
-									[
-										4845,
-										4849
-									],
-									[
-										4860,
-										4864
-									],
-									[
-										4926,
-										4930
-									],
-									[
-										4949,
-										4953
-									],
-									[
-										4987,
-										4991
-									],
-									[
-										5008,
-										5012
-									],
-									[
-										5095,
-										5099
-									],
-									[
-										5109,
-										5113
-									],
-									[
-										5159,
-										5163
-									],
-									[
-										5173,
-										5177
-									],
-									[
-										5257,
-										5261
-									],
-									[
-										5270,
-										5274
-									],
-									[
-										5377,
-										5381
-									],
-									[
-										5390,
-										5394
-									]
-								],
-								"scope": ""
-							}
 						},
 						"selection":
 						[
 							[
-								547,
-								547
+								939,
+								1958
 							]
 						],
 						"settings":
 						{
-							"default_dir": "C:\\Sites\\heroku-buildpack-python-ldap-master",
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 2,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage",
-							"translate_tabs_to_spaces": false
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".",
+									"selector": "source.python - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 259.0,
+						"translation.y": 346.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Sites/sasl-0.2.1/setup.cfg",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 59,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Buildout Config.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Sites/HealthCareDemo/Notes/stackoverflow question.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4648,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2788,
+								2788
+							]
+						],
+						"settings":
+						{
+							"auto_name": "I'm trying to deploy on Heroku a Python App that u",
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 794.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "bin/compile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8288,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6554,
+								6554
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3570.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1003,7 +808,7 @@
 	"project": "heroku-buildpack-python-sasl.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 63.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1035,7 +840,7 @@
 				"PyTZInfo_Check"
 			]
 		],
-		"width": 520.0
+		"width": 392.0
 	},
 	"selected_group": 0,
 	"settings":
