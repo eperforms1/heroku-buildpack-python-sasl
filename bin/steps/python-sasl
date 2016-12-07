@@ -30,7 +30,7 @@ if [ ! -d $CACHE_DIR/.python-sasl/csasl ]; then
     mv ${CSASL_BASE} $CACHE_DIR/.python-sasl/csasl
     cd $CACHE_DIR/.python-sasl/csasl
     echo "Configuring ..." | indent
-    ./configure --prefix=$CACHE_DIR/.python-sasl/csasl > /dev/null
+    ./configure --enable-shared --prefix=$CACHE_DIR/.python-sasl/csasl > /dev/null
     echo "Making ..." | indent
     make PROCESSEDEXAMPLEFILES="" > /dev/null
     echo "Installing ..." | indent
