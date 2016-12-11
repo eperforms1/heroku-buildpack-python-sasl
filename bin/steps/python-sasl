@@ -1,4 +1,6 @@
-# Install python-ldap
+#!/usr/bin/env bash
+
+# Install python-sasl
 puts-step "Installing sasl"
 
 # GROFF_VERSION=1.21
@@ -21,22 +23,22 @@ SASL_URL="https://pypi.python.org/packages/8e/2c/45dae93d666aea8492678499e099926
 mkdir -p $CACHE_DIR/.python-sasl
 mkdir -p $BUILD_DIR/.python-sasl
 
-if [ ! -d $CACHE_DIR/.python-sasl/csasl ]; then
-    echo "Downloading Cyrus-SASL ${CSASL_VERSION} ..." | indent
-    curl -O -L $CSASL_URL
-    echo "Unpacking ..." | indent
-    tar xzf ${CSASL_BASE}.tar.gz
-    rm ${CSASL_BASE}.tar.gz
-    mv ${CSASL_BASE} $CACHE_DIR/.python-sasl/csasl
-    cd $CACHE_DIR/.python-sasl/csasl
-    echo "Configuring ..." | indent
-    ./configure --enable-shared --prefix=$CACHE_DIR/.python-sasl/csasl > /dev/null
-    echo "Making ..." | indent
-    make PROCESSEDEXAMPLEFILES="" > /dev/null
-    echo "Installing ..." | indent
-    make PROCESSEDEXAMPLEFILES="" install > /dev/null
-    cd - > /dev/null
-fi
+# if [ ! -d $CACHE_DIR/.python-sasl/csasl ]; then
+#     echo "Downloading Cyrus-SASL ${CSASL_VERSION} ..." | indent
+#     curl -O -L $CSASL_URL
+#     echo "Unpacking ..." | indent
+#     tar xzf ${CSASL_BASE}.tar.gz
+#     rm ${CSASL_BASE}.tar.gz
+#     mv ${CSASL_BASE} $CACHE_DIR/.python-sasl/csasl
+#     cd $CACHE_DIR/.python-sasl/csasl
+#     echo "Configuring ..." | indent
+#     ./configure --enable-shared --prefix=$CACHE_DIR/.python-sasl/csasl > /dev/null
+#     echo "Making ..." | indent
+#     make PROCESSEDEXAMPLEFILES="" > /dev/null
+#     echo "Installing ..." | indent
+#     make PROCESSEDEXAMPLEFILES="" install > /dev/null
+#     cd - > /dev/null
+# fi
 if [ ! -d $CACHE_DIR/.python-sasl/sasl ]; then
     echo "Downloading SASL ${SASL_VERSION} ..." | indent
     curl -s -L -o sasl.tar.gz $SASL_URL
