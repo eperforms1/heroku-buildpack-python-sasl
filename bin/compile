@@ -215,9 +215,9 @@ source $BIN_DIR/steps/gdal
 #     source $BIN_DIR/steps/python-ldap
 # fi
 # Install sasl if needed.
-# if grep -q sasl requirements.txt; then
-#    source $BIN_DIR/steps/python-sasl
-# fi
+if grep -q sasl requirements.txt; then
+   source $BIN_DIR/steps/python-sasl
+fi
 
 # Install dependencies with Pip.
 source $BIN_DIR/steps/pip-install

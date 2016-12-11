@@ -51,24 +51,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "bin/steps/python-sasl",
-			"settings":
-			{
-				"buffer_size": 6078,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "bin/compile",
-			"settings":
-			{
-				"buffer_size": 8295,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -137,6 +119,11 @@
 	],
 	"file_history":
 	[
+		"/C/Scott/Backups/SCBackup2016.bat",
+		"/C/CMU/README",
+		"/C/Sites/HealthCareDemo/backup.bat",
+		"/C/Sites/heroku-buildpack-python-sasl/bin/steps/python-sasl",
+		"/C/Sites/heroku-buildpack-python-sasl/bin/compile",
 		"/C/Sites/HealthCareDemo/Notes/stackoverflow question.txt",
 		"/C/Sites/sasl-0.2.1/setup.cfg",
 		"/C/Sites/heroku-buildpack-python-sasl/builds/libraries/vendor/gdal",
@@ -259,12 +246,7 @@
 		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/bitarray/test_bitarray.py",
 		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/TCLIService/ttypes.py",
 		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/cursor.py",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/TCLIService/TCLIService.py",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/cloudera/thrift_sasl.py",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/thrift/transport/TTransport.py",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/cloudera/__init__.py",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2-0.6.0-py3.5.egg-info/requires.txt",
-		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/connections.orig.py"
+		"/C/Sites/HealthCareDemo/HealthCareDemo/mywvenv/Lib/site-packages/pyhs2/TCLIService/TCLIService.py"
 	],
 	"find":
 	{
@@ -616,80 +598,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "bin/steps/python-sasl",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6078,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1558,
-								1558
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": ".",
-									"selector": "source.python - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								}
-							],
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 455.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "bin/compile",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8295,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6445,
-								6445
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3570.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		}
 	],
